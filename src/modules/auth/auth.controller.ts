@@ -1,23 +1,34 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Request, Body, Post, Get, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
+import { LocalAuthGuard } from './guards/local-auth.guard';
+import { CreateUserDto } from '../users/dto/create-user.dto';
+import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { RolesGuard } from './guards/roles.guard';
+import { Roles } from 'src/common/decorators/roles.decorator';
+import { UserRole } from '../users/entities/user.entity';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) { }
+    constructor(private authService: AuthService) { }
 
-  @Post()
-  register() {
-    return this.authService.register();
-  }
+    @UseGuards(LocalAuthGuard)
+    @Post('login')
+    async login(@Request() req) {
+        return this.authService.login(req.user);
+    }
 
-  @Post('login')
-  login() {
-    return this.authService.login();
-  }
+    @Post('register')
+    async register(@Body() createUserDto: CreateUserDto) {
+        const user = await this.authService.create(createUserDto);
+        const { password, ...result } = user;
+        return result;
+    }
 
-  @Post('logout')
-  logout() {
-    return this.authService.logout();
-  }
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles(UserRole.ADMIN)
+    @Get('users')
+    async getUsers() {
+        return this.authService.findAll();
+    }
 
-}
+}   

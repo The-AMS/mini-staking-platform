@@ -1,17 +1,17 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { UserModule } from './user/user.module';
+import { UsersModule } from './modules/users/users.module';
 import { DbModule } from './config/db/db.module';
-import { AuthModule } from './auth/auth.module';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
-      isGlobal: true, // Makes env variables available globally
+      isGlobal: true,
       envFilePath: '.env',
     }),
     DbModule,
-    UserModule,
+    UsersModule,
     AuthModule,
   ],
 })
