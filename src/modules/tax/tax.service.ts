@@ -11,6 +11,7 @@ export class TaxService {
     private taxSettingRepository: Repository<TaxSetting>,
   ) { }
 
+  // Using in TransactionService
   async getCurrentRate(): Promise<number> {
     const activeTaxSetting = await this.taxSettingRepository.findOne({
       where: { is_active: true },
@@ -29,6 +30,7 @@ export class TaxService {
     return activeTaxSetting.tax_rate;
   }
 
+  // Public
   async getCurrentTaxSetting(): Promise<TaxSetting> {
     const activeTaxSetting = await this.taxSettingRepository.findOne({
       where: { is_active: true },
@@ -45,6 +47,7 @@ export class TaxService {
     return activeTaxSetting;
   }
 
+  // Admin
   async updateTaxRate(updateTaxRateDto: UpdateTaxRateDto): Promise<TaxSetting> {
     // Deactivate all existing tax settings
     await this.taxSettingRepository.update(

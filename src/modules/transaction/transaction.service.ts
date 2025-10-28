@@ -24,6 +24,7 @@ export class TransactionService {
     private taxService: TaxService,
   ) { }
 
+  // User
   async createDeposit(
     userId: number,
     createDepositDto: CreateDepositDto,
@@ -50,6 +51,7 @@ export class TransactionService {
     return await this.transactionRepository.save(transaction);
   }
 
+  // User
   async createWithdrawal(
     userId: number,
     createWithdrawalDto: CreateWithdrawalDto,
@@ -81,6 +83,7 @@ export class TransactionService {
     return await this.transactionRepository.save(transaction);
   }
 
+  // User
   async getUserTransactions(
     userId: number,
     query: QueryTransactionDto,
@@ -108,6 +111,7 @@ export class TransactionService {
     return { data, total, page, limit };
   }
 
+  // Admin
   async getPendingTransactions(): Promise<Transaction[]> {
     return await this.transactionRepository.find({
       where: { status: TransactionStatus.PENDING },
@@ -116,6 +120,7 @@ export class TransactionService {
     });
   }
 
+  // Admin
   async approveTransaction(transactionId: number): Promise<Transaction> {
     const transaction = await this.transactionRepository.findOne({
       where: { id: transactionId },
@@ -147,6 +152,7 @@ export class TransactionService {
     return await this.transactionRepository.save(transaction);
   }
 
+  // Admin
   async rejectTransaction(transactionId: number): Promise<Transaction> {
     const transaction = await this.transactionRepository.findOne({
       where: { id: transactionId },

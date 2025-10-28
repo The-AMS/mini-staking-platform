@@ -21,6 +21,7 @@ import { RolesGuard } from '../auth/guards/roles.guard';
 export class TransactionController {
   constructor(private readonly transactionService: TransactionService) { }
 
+  // User
   @Post('deposit')
   async createDeposit(@Request() req, @Body() createDepositDto: CreateDepositDto) {
     const transaction = await this.transactionService.createDeposit(
@@ -33,6 +34,7 @@ export class TransactionController {
     };
   }
 
+  // User
   @Post('withdrawal')
   async createWithdrawal(
     @Request() req,
@@ -48,11 +50,13 @@ export class TransactionController {
     };
   }
 
+  // User
   @Get('my-transactions')
   async getMyTransactions(@Request() req, @Query() query: QueryTransactionDto) {
     return await this.transactionService.getUserTransactions(req.user.id, query);
   }
 
+  // Admin
   @Get('pending')
   @UseGuards(RolesGuard)
   async getPendingTransactions() {
@@ -63,6 +67,7 @@ export class TransactionController {
     };
   }
 
+  // Admin
   @Patch(':id/approve')
   @UseGuards(RolesGuard)
   async approveTransaction(@Param('id') id: string) {
@@ -73,6 +78,7 @@ export class TransactionController {
     };
   }
 
+  // Admin
   @Patch(':id/reject')
   @UseGuards(RolesGuard)
   async rejectTransaction(@Param('id') id: string) {

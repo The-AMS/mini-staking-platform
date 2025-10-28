@@ -8,6 +8,7 @@ import { RolesGuard } from '../auth/guards/roles.guard';
 export class TaxController {
   constructor(private readonly taxService: TaxService) { }
 
+  // Public
   @Get('current')
   async getCurrentTaxRate() {
     const taxSetting = await this.taxService.getCurrentTaxSetting();
