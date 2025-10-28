@@ -24,11 +24,4 @@ export class AuthController {
         return result;
     }
 
-    @UseGuards(JwtAuthGuard, RolesGuard)
-    @Roles(UserRole.ADMIN)
-    @Get('users')
-    async getUsers() {
-        return this.authService.findAll();
-    }
-
 }   

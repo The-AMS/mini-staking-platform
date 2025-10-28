@@ -11,4 +11,6 @@ export class UsersController {
   getProfile(@Request() req) {
     return req.user;
   }
+
+
 }

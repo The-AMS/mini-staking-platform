@@ -16,8 +16,11 @@ export class User {
     @Column()
     password: string;
 
-    @Column({ nullable: true })
+    @Column({ unique: true })
     email: string;
+
+    @Column('decimal', { precision: 10, scale: 2, default: 0 })
+    balance: number;
 
     @Column({
         type: 'enum',

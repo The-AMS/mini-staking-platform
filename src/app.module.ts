@@ -5,6 +5,7 @@ import { DbModule } from './config/db/db.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { TaxModule } from './modules/tax/tax.module';
 import { TransactionModule } from './modules/transaction/transaction.module';
+import { AdminModule } from './modules/admin/admin.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { TransactionModule } from './modules/transaction/transaction.module';
     AuthModule,
     TaxModule,
     TransactionModule,
+    AdminModule,
   ],
 })
 export class AppModule { }

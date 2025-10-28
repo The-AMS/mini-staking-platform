@@ -1,5 +1,6 @@
-import { IsString, IsNotEmpty, MinLength, IsEnum, IsOptional, IsEmpty, IsEmail } from 'class-validator';
+import { IsString, IsNotEmpty, MinLength, IsEmpty, IsEmail } from 'class-validator';
 import { UserRole } from '../entities/user.entity';
+import { Unique } from 'typeorm';
 
 export class CreateUserDto {
     @IsString()
@@ -16,4 +17,5 @@ export class CreateUserDto {
 
     @IsEmpty()
     role: UserRole;
+
 }
