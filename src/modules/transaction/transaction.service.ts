@@ -8,6 +8,7 @@ import { Repository } from 'typeorm';
 import { Transaction } from './entities/transaction.entity';
 import { User } from '../users/entities/user.entity';
 import { TaxService } from '../tax/tax.service';
+import { StakingService } from '../staking/staking.service';
 import { CreateDepositDto } from './dto/create-deposit.dto';
 import { CreateWithdrawalDto } from './dto/create-withdrawal.dto';
 import { QueryTransactionDto } from './dto/query-transaction.dto';
@@ -22,9 +23,9 @@ export class TransactionService {
     @InjectRepository(User)
     private userRepository: Repository<User>,
     private taxService: TaxService,
+    private stakingService: StakingService,
   ) { }
 
-  // User
   async createDeposit(
     userId: number,
     createDepositDto: CreateDepositDto,
@@ -51,11 +52,18 @@ export class TransactionService {
     return await this.transactionRepository.save(transaction);
   }
 
-  // User
   async createWithdrawal(
     userId: number,
     createWithdrawalDto: CreateWithdrawalDto,
   ): Promise<Transaction> {
+    // Check if there's an active staking round
+    const activeRound = await this.stakingService.getActiveRound();
+    if (activeRound) {
+      throw new BadRequestException(
+        'Withdrawals are locked during active staking round. Please wait until the round ends.',
+      );
+    }
+
     const user = await this.userRepository.findOne({ where: { id: userId } });
     if (!user) {
       throw new NotFoundException('User not found');
@@ -83,7 +91,6 @@ export class TransactionService {
     return await this.transactionRepository.save(transaction);
   }
 
-  // User
   async getUserTransactions(
     userId: number,
     query: QueryTransactionDto,
@@ -111,7 +118,6 @@ export class TransactionService {
     return { data, total, page, limit };
   }
 
-  // Admin
   async getPendingTransactions(): Promise<Transaction[]> {
     return await this.transactionRepository.find({
       where: { status: TransactionStatus.PENDING },
@@ -120,7 +126,6 @@ export class TransactionService {
     });
   }
 
-  // Admin
   async approveTransaction(transactionId: number): Promise<Transaction> {
     const transaction = await this.transactionRepository.findOne({
       where: { id: transactionId },
@@ -152,7 +157,6 @@ export class TransactionService {
     return await this.transactionRepository.save(transaction);
   }
 
-  // Admin
   async rejectTransaction(transactionId: number): Promise<Transaction> {
     const transaction = await this.transactionRepository.findOne({
       where: { id: transactionId },
