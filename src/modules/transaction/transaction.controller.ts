@@ -24,8 +24,10 @@ export class TransactionController {
   // User
   @Post('deposit')
   async createDeposit(@Request() req, @Body() createDepositDto: CreateDepositDto) {
+    console.log('🔍 DEBUG req.user:', req.user);
+    console.log('🔍 DEBUG user.id:', req.user.id);
     const transaction = await this.transactionService.createDeposit(
-      req.user.id,
+      req.user.userId,
       createDepositDto,
     );
     return {
@@ -41,7 +43,7 @@ export class TransactionController {
     @Body() createWithdrawalDto: CreateWithdrawalDto,
   ) {
     const transaction = await this.transactionService.createWithdrawal(
-      req.user.id,
+      req.user.userId,
       createWithdrawalDto,
     );
     return {
@@ -53,7 +55,7 @@ export class TransactionController {
   // User
   @Get('my-transactions')
   async getMyTransactions(@Request() req, @Query() query: QueryTransactionDto) {
-    return await this.transactionService.getUserTransactions(req.user.id, query);
+    return await this.transactionService.getUserTransactions(req.user.userId, query);
   }
 
   // Admin

@@ -7,8 +7,8 @@ import {
     UpdateDateColumn,
 } from 'typeorm';
 import { User } from '../../users/entities/user.entity';
-import { TransactionType } from '../../../common/enums/transaction-type.enum';
-import { TransactionStatus } from '../../../common/enums/transaction-status.enum';
+import { TransactionType } from '../enums/transaction-type.enum';
+import { TransactionStatus } from '../enums/transaction-status.enum';
 
 @Entity('transactions')
 export class Transaction {

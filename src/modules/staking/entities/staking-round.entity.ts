@@ -5,7 +5,7 @@ import {
     UpdateDateColumn,
     CreateDateColumn,
 } from 'typeorm';
-import { RoundStatus } from '../../../common/enums/round-status.enum';
+import { RoundStatus } from '../enums/round-status.enum';
 
 @Entity('staking_rounds')
 export class StakingRound {

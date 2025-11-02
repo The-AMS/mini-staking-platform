@@ -1,7 +1,7 @@
 import { IsOptional, IsEnum, IsInt, Min } from 'class-validator';
 import { Type } from 'class-transformer';
-import { TransactionType } from '../../../common/enums/transaction-type.enum';
-import { TransactionStatus } from '../../../common/enums/transaction-status.enum';
+import { TransactionType } from '../enums/transaction-type.enum';
+import { TransactionStatus } from '../enums/transaction-status.enum';
 
 export class QueryTransactionDto {
     @IsOptional()

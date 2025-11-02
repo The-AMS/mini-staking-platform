@@ -12,8 +12,8 @@ import { StakingService } from '../staking/staking.service';
 import { CreateDepositDto } from './dto/create-deposit.dto';
 import { CreateWithdrawalDto } from './dto/create-withdrawal.dto';
 import { QueryTransactionDto } from './dto/query-transaction.dto';
-import { TransactionType } from '../../common/enums/transaction-type.enum';
-import { TransactionStatus } from '../../common/enums/transaction-status.enum';
+import { TransactionType } from './enums/transaction-type.enum';
+import { TransactionStatus } from './enums/transaction-status.enum';
 
 @Injectable()
 export class TransactionService {
@@ -30,7 +30,12 @@ export class TransactionService {
     userId: number,
     createDepositDto: CreateDepositDto,
   ): Promise<Transaction> {
+    console.log('🔍 DEBUG userId received:', userId);
+
     const user = await this.userRepository.findOne({ where: { id: userId } });
+
+    console.log('🔍 DEBUG user found:', user);
+
     if (!user) {
       throw new NotFoundException('User not found');
     }

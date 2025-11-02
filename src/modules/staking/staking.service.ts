@@ -11,7 +11,7 @@ import { StakingProfit } from './entities/staking-profit.entity';
 import { User } from '../users/entities/user.entity';
 import { BalanceSnapshotService } from '../balance-snapshot/balance-snapshot.service';
 import { SetProfitRateDto } from './dto/set-profit-rate.dto';
-import { RoundStatus } from '../../common/enums/round-status.enum';
+import { RoundStatus } from './enums/round-status.enum';
 
 @Injectable()
 export class StakingService {
